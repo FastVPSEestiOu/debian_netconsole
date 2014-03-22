@@ -1,0 +1,18 @@
+ENABLE_NETCONSOLE="no"
+# ENABLE_NETCONSOLE="yes"
+
+# if yod did not set this value, we try to find mac address for gateway (not this host!) manually
+# DESTINATION_SERVER_MAC=""
+
+# This address is mandatory!
+DESTINATION_SERVER_IP="78.47.184.203"
+
+# This port is used for receive messages on target server
+DESTINATION_PORT="614"
+
+# This port is used for sencing messagesg from this server
+#SOURCE_PORT="6666"
+
+# Source interface
+# If you did not set this value, we try to use interface used for default gateway
+# SOURCE_INTERFACE="eth0"

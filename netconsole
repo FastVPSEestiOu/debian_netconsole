@@ -1,0 +1,94 @@
+#!/bin/sh -e
+### BEGIN INIT INFO
+# Provides:          netconsole
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Enables netconsole logging faciity.
+# Description:       Enables netconsole logging faciity.
+### END INIT INFO
+
+
+# default configuration
+DESTINATION_PORT="514"
+SOURCE_PORT="6666"
+
+SOURCE_INTERFACE=`/sbin/ip route show|grep default |awk '{print \$5}'`
+SOURCE_IP=`/sbin/ip addr show dev $SOURCE_INTERFACE|grep -v inet6|grep inet|sed 's#/# #'|head -1 |awk '{print \$2}'`
+
+# It is needed for got mac address, when it unknown
+GATEWAY_IP=`/sbin/ip route | grep $SOURCE_INTERFACE | grep default | awk '{print \$3}'`
+
+# We need execute external network request for filling up arp table (it clean after boot)
+ping -c 5 $GATEWAY_IP
+
+# Gateway MAC:
+GATEWAY_MAC=`/usr/sbin/arp -a -n|grep $GATEWAY_IP|awk '{print \$4}'`
+
+test -r /etc/default/netconsole && . /etc/default/netconsole
+
+# If DESTINATION_SERVER_MAC is not defined explicitly we use gateway mac address
+if [ -z "$DESTINATION_SERVER_MAC" ]; then
+    DESTINATION_SERVER_MAC=$GATEWAY_MAC
+fi
+
+MODULE_OPTIONS="netconsole=$SOURCE_PORT@$SOURCE_IP/$SOURCE_INTERFACE,$DESTINATION_PORT@$DESTINATION_SERVER_IP/$DESTINATION_SERVER_MAC"
+
+NAME="netconsole"
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+        echo "Starting $NAME: "
+        if [ "$ENABLE_NETCONSOLE" = yes ]; then
+        # load module
+            if [ -z "$DESTINATION_SERVER_IP" ]; then
+                log_failure_msg "Please set DESTINATION_SERVER_IP variable in /etc/default/netconsole or disable netconsole module"
+                exit 1
+            fi           
+ 
+            # Encrease logging level up to 8, because standard debian has 7 and did not send many messagesg to netconsole
+            # # https://www.kernel.org/doc/Documentation/sysctl/kernel.txt
+            # standard debian squeeze:
+            
+            # sysctl -a|grep printk
+            # squeeze: kernel.printk = 7   4   1   7
+            # centos: kernel.printk = 6 4   1   7
+ 
+            /bin/dmesg -n 8  
+            /sbin/modprobe "$NAME" "$MODULE_OPTIONS"
+        else
+                log_warning_msg "$NAME disabled in /etc/default/netconsole, if you need it, please enable"
+        fi
+        ;;
+  stop)
+        echo -n "Stopping $NAME: "
+        modprobe -r $NAME
+        # выгружаем
+        ;;
+
+  restart)
+        $0 stop
+        sleep 2
+        $0 start
+        ;;
+  status)
+        # try to find netconsole module
+        lsmod|egrep '^netconsole' > /dev/null
+        if [ $? -ne 0 ]; then
+            log_failure_msg "netconsole module did not loaded into kernel"
+        else
+            log_success_msg "netconsole module loaded into kernel"
+        fi
+        ;; 
+  *)
+        N=/etc/init.d/$NAME
+        echo "Usage: $N {start|stop|restart|status}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
+
