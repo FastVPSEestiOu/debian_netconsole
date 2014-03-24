@@ -48,10 +48,8 @@ case "$1" in
             if [ -z "$DESTINATION_SERVER_MAC" ]; then
                 #GATEWAY_MAC=`/usr/sbin/arp -a -n|grep $GATEWAY_IP|awk '{print \$4}'`
 
-                #if [ -z "$GATEWAY_MAC" ] || [ "$GATEWAY_MAC" == "ff:ff:ff:ff:ff:ff" ]; then
-
                 # If we can't find gateway MAC address in arp table, we should use arping for detect it
-                if [ -z "$GATEWAY_MAC" ]; then
+                if [ -z "$GATEWAY_MAC" ] || [ "$GATEWAY_MAC" = "ff:ff:ff:ff:ff:ff" ]; then
                     # Simple way for getting gateway mac address
                     # Checked in Debian 6 and Debian 7 both
                     GATEWAY_MAC=`/usr/sbin/arping $GATEWAY_IP -c 1 -r -i $SOURCE_INTERFACE | tail -1`
