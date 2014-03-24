@@ -26,7 +26,7 @@ test -r /etc/default/netconsole && . /etc/default/netconsole
 if [ -z "$DESTINATION_SERVER_MAC" ]; then
     # Simple way for getting gateway mac address
     # Checked in Debian 6 and Debian 7 both
-    GATEWAY_MAC=`arping $GATEWAY_IP -c 1 -r`
+    GATEWAY_MAC=`/usr/sbin/arping $GATEWAY_IP -c 1 -r`
 
     DESTINATION_SERVER_MAC=$GATEWAY_MAC
 fi
@@ -63,7 +63,7 @@ case "$1" in
         ;;
   stop)
         echo -n "Stopping $NAME: "
-        modprobe -r $NAME
+        /sbin/modprobe -r $NAME
         # выгружаем
         ;;
 
