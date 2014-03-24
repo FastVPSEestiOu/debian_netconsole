@@ -32,3 +32,18 @@ Add to start on boot and start netconsole now:
 insserv netconsole
 /etc/init.d/netconsole start
 ```
+
+Test connection on client:
+```bash
+echo "Test" > /dev/kmsg 
+```
+
+On server:
+```bash
+tcpdump -A 'port 614' 
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on venet0, link-type LINUX_SLL (Linux cooked), capture size 65535 bytes
+12:13:52.485930 IP XXXX.6666 > fastvps.ee.614: UDP, length 21
+E..1....:...X.....'..
+.f..iD[275629.843870] Test
+```
