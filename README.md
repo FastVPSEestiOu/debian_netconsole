@@ -1,15 +1,16 @@
 debian_netconsole
 =================
 
-Scripts for convient enabling netconsole kernel ability on Debian Squeeze, Wheezy and later
-
-I'm providing open source script for managing netconsole module on Debian Squeeze for you! :)
+Scripts for convient enabling netconsole kernel ability on Debian Squeeze, Wheezy and later (not tested yet)
 
 Features:
 
 Autoconfigure mac address in routed network (automatically use gateway address mac or you can manually set destination server mac address)
 Script is very simple to configure 
 
+Thoroughly tested on:
+- Debian 6 Squeeze
+- Debian 7 Wheezy
 
 You can install it manually:
 ```bash
