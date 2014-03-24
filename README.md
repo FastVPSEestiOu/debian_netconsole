@@ -14,9 +14,8 @@ Script is very simple to configure
 You can install it manually:
 ```bash
 apt-get install -y arping
-cd /usr/src
-wget https://raw.githubusercontent.com/vps2fast/debian_netconsole/master/netconsole_conf -O/etc/default/netconsole --no-check-certificate
-wget https://raw.githubusercontent.com/vps2fast/debian_netconsole/master/netconsole -O/etc/init.d/netconsole --no-check-certificate
+wget --no-check-certificate https://raw.githubusercontent.com/vps2fast/debian_netconsole/master/netconsole_conf -O/etc/default/netconsole --no-check-certificate
+wget --no-check-certificate https://raw.githubusercontent.com/vps2fast/debian_netconsole/master/netconsole -O/etc/init.d/netconsole --no-check-certificate
 chmod +x /etc/init.d/netconsole
 ```
 
