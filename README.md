@@ -15,8 +15,8 @@ Thoroughly tested on:
 You can install it manually:
 ```bash
 apt-get install -y arping
-wget --no-check-certificate https://raw.githubusercontent.com/vps2fast/debian_netconsole/master/netconsole_conf -O/etc/default/netconsole
-wget --no-check-certificate https://raw.githubusercontent.com/vps2fast/debian_netconsole/master/netconsole -O/etc/init.d/netconsole
+wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -O/etc/default/netconsole
+wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole -O/etc/init.d/netconsole
 chmod +x /etc/init.d/netconsole
 ```
 
