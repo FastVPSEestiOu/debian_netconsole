@@ -5,7 +5,7 @@ ENABLE_NETCONSOLE="no"
 # DESTINATION_SERVER_MAC=""
 
 # This address is mandatory!
-DESTINATION_SERVER_IP="78.47.184.203"
+DESTINATION_SERVER_IP="127.0.0.1"
 
 # This port is used for receive messages on target server
 DESTINATION_PORT="614"

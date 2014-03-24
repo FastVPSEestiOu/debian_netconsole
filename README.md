@@ -14,21 +14,20 @@ Script is very simple to configure
 You can install it manually:
 ```bash
 apt-get install -y arping
-wget --no-check-certificate https://raw.githubusercontent.com/vps2fast/debian_netconsole/master/netconsole_conf -O/etc/default/netconsole --no-check-certificate
-wget --no-check-certificate https://raw.githubusercontent.com/vps2fast/debian_netconsole/master/netconsole -O/etc/init.d/netconsole --no-check-certificate
+wget --no-check-certificate https://raw.githubusercontent.com/vps2fast/debian_netconsole/master/netconsole_conf -O/etc/default/netconsole
+wget --no-check-certificate https://raw.githubusercontent.com/vps2fast/debian_netconsole/master/netconsole -O/etc/init.d/netconsole
 chmod +x /etc/init.d/netconsole
 ```
 
 Now you need configure script:
 ```bash
 nano /etc/default/netconsole
-You need enable script autoload on startup:
+#You need enable script autoload on startup:
 ENABLE_NETCONSOLE="yes"
+# Also you need set DESTINATION_SERVER_IP
 ```
 
-Also you need set DESTINATION_SERVER_IP.
-
-Okay,  show must go on! Startup netconsole!
+Add to start on boot and start netconsole now:
 ```bash
 insserv netconsole
 /etc/init.d/netconsole start
