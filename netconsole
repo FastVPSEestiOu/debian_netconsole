@@ -22,17 +22,6 @@ GATEWAY_IP=`/sbin/ip route | grep $SOURCE_INTERFACE | grep default | awk '{print
 
 test -r /etc/default/netconsole && . /etc/default/netconsole
 
-# If DESTINATION_SERVER_MAC is not defined explicitly we use gateway mac address
-if [ -z "$DESTINATION_SERVER_MAC" ]; then
-    # Simple way for getting gateway mac address
-    # Checked in Debian 6 and Debian 7 both
-    GATEWAY_MAC=`/usr/sbin/arping $GATEWAY_IP -c 1 -r`
-
-    DESTINATION_SERVER_MAC=$GATEWAY_MAC
-fi
-
-MODULE_OPTIONS="netconsole=$SOURCE_PORT@$SOURCE_IP/$SOURCE_INTERFACE,$DESTINATION_PORT@$DESTINATION_SERVER_IP/$DESTINATION_SERVER_MAC"
-
 NAME="netconsole"
 
 . /lib/lsb/init-functions
@@ -54,6 +43,17 @@ case "$1" in
             # sysctl -a|grep printk
             # squeeze: kernel.printk = 7   4   1   7
             # centos: kernel.printk = 6 4   1   7
+
+            # If DESTINATION_SERVER_MAC is not defined explicitly we use gateway mac address
+            if [ -z "$DESTINATION_SERVER_MAC" ]; then
+                # Simple way for getting gateway mac address
+                # Checked in Debian 6 and Debian 7 both
+                GATEWAY_MAC=`/usr/sbin/arping $GATEWAY_IP -c 1 -r -i $SOURCE_INTERFACE`
+
+                DESTINATION_SERVER_MAC=$GATEWAY_MAC
+            fi
+
+            MODULE_OPTIONS="netconsole=$SOURCE_PORT@$SOURCE_IP/$SOURCE_INTERFACE,$DESTINATION_PORT@$DESTINATION_SERVER_IP/$DESTINATION_SERVER_MAC"
  
             #/bin/dmesg -n 8  
             /sbin/modprobe "$NAME" "$MODULE_OPTIONS"
