@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Install arping"
-apt-get install -y arping curl
+apt-get install -y arping
 
 echo "Download config"
 curl -k https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -o /etc/default/netconsole
