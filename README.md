@@ -12,6 +12,11 @@ Thoroughly tested on:
 - Debian 6 Squeeze
 - Debian 7 Wheezy
 
+Fast install:
+```bash
+wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/install.sh | bash
+```
+
 Install guide for init.d script (RECOMMENDED):
 ```bash
 apt-get install -y arping
