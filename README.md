@@ -12,12 +12,20 @@ Thoroughly tested on:
 - Debian 6 Squeeze
 - Debian 7 Wheezy
 
-You can install it manually:
+Install guide for init.d script (NOT RECOMMENDED):
 ```bash
 apt-get install -y arping
 wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -O/etc/default/netconsole
 wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole -O/etc/init.d/netconsole
 chmod +x /etc/init.d/netconsole
+```
+
+Install guide for network script (RECOMMENDED):
+```bash
+apt-get install -y arping
+wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_network_script -O/etc/network/if-up.d/netconsole
+wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -O/etc/default/netconsole
+chmod +x /etc/network/if-up.d/netconsole
 ```
 
 Now you need configure script:
