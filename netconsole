@@ -52,8 +52,15 @@ case "$1" in
             fi
 
             MODULE_OPTIONS="netconsole=$SOURCE_PORT@$SOURCE_IP/$SOURCE_INTERFACE,$DESTINATION_PORT@$DESTINATION_SERVER_IP/$DESTINATION_SERVER_MAC"
+
+            DEBIAN_VERSION=`cat /etc/debian_version | sed 's/\./ /' | awk '{print $1}'` 
+            
+            # Fore Debian 6 Squeeze we should increase verbosity level
+            if [ "$DEBIAN_VERSION" -eq 6 ]; then
+                /bin/dmesg -n 8 
+            fi
+
  
-            #/bin/dmesg -n 8  
             /sbin/modprobe "$NAME" "$MODULE_OPTIONS"
         else
                 log_warning_msg "$NAME disabled in /etc/default/netconsole, if you need it, please enable"
