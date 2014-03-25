@@ -10,6 +10,12 @@ if [ "$MODE" != start ]; then
         exit 0
 fi
 
+# Start script only when interface was correctly configured
+if [ "$PHASE" != post-up ]; then
+        exit 0
+fi
+
+
 # Work only when IPv4 enabled
 if [ "$ADDRFAM" != inet ]; then
         exit 0
@@ -51,7 +57,7 @@ do_start() {
 
             # If DESTINATION_SERVER_MAC is not defined explicitly we use gateway mac address
             if [ -z "$DESTINATION_SERVER_MAC" ]; then
-                GATEWAY_MAC=`/usr/sbin/arping $GATEWAY_IP -c 2 -r -i $SOURCE_INTERFACE | tail -1`
+                GATEWAY_MAC=`/usr/sbin/arping $GATEWAY_IP -c 5 -r -i $SOURCE_INTERFACE | tail -1`
 
                 DESTINATION_SERVER_MAC=$GATEWAY_MAC
             fi
