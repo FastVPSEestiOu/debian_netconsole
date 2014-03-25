@@ -25,7 +25,7 @@ wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/deb
 chmod +x /etc/init.d/netconsole
 ```
 
-Install guide for network script (NOT RECOMMENDED):
+Install guide for network script (DANGER! NOT RECOMMENDED):
 ```bash
 apt-get install -y arping
 wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_network_script -O/etc/network/if-up.d/netconsole
