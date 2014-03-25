@@ -1,5 +1,7 @@
 #!/bin/bash
 
+apt-get update > /dev/null
+
 echo "Install arping"
 apt-get install -y arping
 
