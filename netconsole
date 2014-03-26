@@ -74,6 +74,15 @@ case "$1" in
                 fi
             fi
 
+            if [ "$DISTRO" = ubuntu ]; then
+                # For Ubuntu 12.04 we need do same
+                cat /etc/issue | grep -i '12\.04'
+               
+                if [ $? -eq 0 ]; then
+                    /bin/dmesg -n 8
+                fi 
+            fi
+
  
             /sbin/modprobe "$NAME" "$MODULE_OPTIONS"
         else
