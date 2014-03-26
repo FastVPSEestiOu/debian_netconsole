@@ -24,12 +24,12 @@ test -r /etc/default/netconsole && . /etc/default/netconsole
 
 # Detect distributive version
 cat /etc/issue|grep -i Ubuntu > /dev/null
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     DISTRO="ubuntu"
 fi
 
 cat /etc/issue |grep -i Debian > /dev/null
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
     DISTRO="debian"
 fi
 
