@@ -13,5 +13,15 @@ curl -k https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/maste
 chmod +x /etc/init.d/netconsole
 
 echo "Starting netconsole..."
-insserv netconsole
+
+if [ -e "/sbin/insserv" ]; then
+    insserv netconsole
+else
+    # Probably it's Ubuntu 12.04 without insserv
+    if [ -e "/usr/sbin/update-rc.d" ]; then 
+        update-rc.d netconsole defaults
+    fi
+fi
+
+
 /etc/init.d/netconsole start
