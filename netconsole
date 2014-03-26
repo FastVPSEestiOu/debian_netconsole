@@ -22,6 +22,17 @@ GATEWAY_IP=`/sbin/ip route | grep $SOURCE_INTERFACE | grep default | awk '{print
 
 test -r /etc/default/netconsole && . /etc/default/netconsole
 
+# Detect distributive version
+cat /etc/issue|grep -i Ubuntu > /dev/null
+if [ $? -ne 0 ]; then
+    DISTRO="ubuntu"
+fi
+
+cat /etc/issue |grep -i Debian > /dev/null
+if [ $? -ne 0 ]; then
+    DISTRO="debian"
+fi
+
 NAME="netconsole"
 
 . /lib/lsb/init-functions
@@ -53,11 +64,14 @@ case "$1" in
 
             MODULE_OPTIONS="netconsole=$SOURCE_PORT@$SOURCE_IP/$SOURCE_INTERFACE,$DESTINATION_PORT@$DESTINATION_SERVER_IP/$DESTINATION_SERVER_MAC"
 
-            DEBIAN_VERSION=`cat /etc/debian_version | awk -F. '{print $1}'` 
+
+            if [ "$DISTRO" = debian ]; then
+                DEBIAN_VERSION=`cat /etc/debian_version | awk -F. '{print $1}'` 
             
-            # Fore Debian 6 Squeeze we should increase verbosity level
-            if [ "$DEBIAN_VERSION" -eq 6 ]; then
-                /bin/dmesg -n 8 
+                # For Debian 6 Squeeze we should increase verbosity level
+                if [ "$DEBIAN_VERSION" -eq 6 ]; then
+                    /bin/dmesg -n 8 
+                fi
             fi
 
  
