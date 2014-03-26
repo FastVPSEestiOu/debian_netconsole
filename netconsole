@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh
 ### BEGIN INIT INFO
 # Provides:          netconsole
 # Required-Start:    $local_fs $remote_fs $network $syslog

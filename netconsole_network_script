@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh
 
 # Don't do anything when lo is configured.
 if [ "$IFACE" = lo ]; then
