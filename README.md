@@ -44,7 +44,10 @@ ENABLE_NETCONSOLE="yes"
 
 Add to start on boot and start netconsole now:
 ```bash
+# For Debian 6, 7 +
 insserv netconsole
+# For Ubuntu 12.04
+update-rc.d netconsole defaults
 /etc/init.d/netconsole start
 ```
 
