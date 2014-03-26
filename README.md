@@ -11,6 +11,7 @@ Script is very simple to configure
 Thoroughly tested on:
 - Debian 6 Squeeze
 - Debian 7 Wheezy
+- Ubuntu 12.04
 
 Fast install:
 ```bash
