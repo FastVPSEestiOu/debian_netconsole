@@ -5,7 +5,7 @@ Scripts for convenient enabling netconsole kernel ability on Debian Squeeze, Whe
 
 Features:
 
-Autoconfigure mac address in routed network (automatically use gateway address mac or you can manually set destination server mac address)
+Autoconfigure mac address in routed network (you can use gateway address mac automatically or set destination server mac address manually)
 Script is very simple to configure 
 
 Thoroughly tested on:
