@@ -34,7 +34,7 @@ wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/deb
 chmod +x /etc/network/if-up.d/netconsole
 ```
 
-Now you need configure script:
+Now you need to configure the script:
 ```bash
 nano /etc/default/netconsole
 #You need enable script autoload on startup:
