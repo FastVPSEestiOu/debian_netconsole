@@ -51,12 +51,12 @@ update-rc.d netconsole defaults
 /etc/init.d/netconsole start
 ```
 
-Test connection on client:
+Test connection on the client side:
 ```bash
 echo "Test" > /dev/kmsg 
 ```
 
-On server:
+On the server side:
 ```bash
 tcpdump -A 'port 614' 
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
