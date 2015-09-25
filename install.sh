@@ -6,9 +6,9 @@ echo "Install arping"
 apt-get install -y arping
 
 echo "Download config"
-curl -k https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -o /etc/default/netconsole
+wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -O /etc/default/netconsole --no-check-certificate
 echo "Download init script"
-curl -k https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole -o /etc/init.d/netconsole
+wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole -O /etc/init.d/netconsole --no-check-certificate
 
 chmod +x /etc/init.d/netconsole
 
@@ -22,6 +22,5 @@ else
         update-rc.d netconsole defaults
     fi
 fi
-
 
 /etc/init.d/netconsole start
