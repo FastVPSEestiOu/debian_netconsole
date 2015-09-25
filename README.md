@@ -15,7 +15,7 @@ Thoroughly tested on:
 
 Fast install:
 ```bash
-curl -k https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/install.sh | bash
+wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/install.sh | bash
 ```
 
 Install guide for init.d script (RECOMMENDED):
