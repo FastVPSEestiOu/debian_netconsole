@@ -11,11 +11,11 @@ Script is very simple to configure
 Thoroughly tested on:
 - Debian 6 Squeeze
 - Debian 7 Wheezy
-- Ubuntu 12.04
+- Ubuntu 12.04, 14.04
 
 Fast install:
 ```bash
-wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/install.sh -O- | bash
+wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/install.sh -O /tmp/netconsole_install.sh && bash /tmp/netconsole_install.sh && rm /tmp/netconsole_install.sh
 ```
 
 Install guide for init.d script (RECOMMENDED):
@@ -46,7 +46,7 @@ Add to start on boot and start netconsole now:
 ```bash
 # For Debian 6, 7 +
 insserv netconsole
-# For Ubuntu 12.04
+# For Ubuntu 12.04, 14.04
 update-rc.d netconsole defaults
 /etc/init.d/netconsole start
 ```
