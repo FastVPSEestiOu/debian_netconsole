@@ -1,0 +1,99 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          netconsole
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Enables netconsole logging faciity.
+# Description:       Enables netconsole logging faciity.
+### END INIT INFO
+
+
+# default configuration
+DESTINATION_PORT="514"
+SOURCE_PORT="6666"
+
+test -r /etc/default/netconsole && . /etc/default/netconsole
+
+NAME="netconsole"
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start )
+        log_daemon_msg "Starting $NAME: "
+        if [ "$ENABLE_NETCONSOLE" = yes ]; then
+        # load module
+            if [ -z "$DESTINATION_SERVER_IP" ]; then
+                log_failure_msg "Please set DESTINATION_SERVER_IP variable in /etc/default/netconsole or disable netconsole module"
+            fi
+
+            # Set GATEWAY_IP and SOURCE_IP from route to DESTINATION_SERVER_IP
+            read GATEWAY_IP SOURCE_INTERFACE SOURCE_IP <<< $(ip -o route get $DESTINATION_SERVER_IP | grep src | awk '{print $3, $5, $7}')
+
+            # If DESTINATION_SERVER_MAC is not defined explicitly we use gateway mac address
+            if [ -z "$DESTINATION_SERVER_MAC" ]; then
+                GATEWAY_MAC=$(arp -i $SOURCE_INTERFACE $GATEWAY_IP | grep -oE  '[a-z0-9:]{17}')
+
+                # If we have no arp record for gateway - ping DESTINATION_SERVER_IP to fill arp table and retry
+                if [ -z "$GATEWAY_MAC" ]; then
+                    ping -n -q -c 3 -i 0.1 $DESTINATION_SERVER_IP > /dev/null
+                    GATEWAY_MAC=$(arp -i $SOURCE_INTERFACE $GATEWAY_IP | grep -oE  '[a-z0-9:]{17}')
+                    
+                    # If we still don't have MAC - exiting
+                    if [ -z "$GATEWAY_MAC" ]; then
+                        log_failure_msg "We can't get GATEWAY_MAC and no DESTINATION_SERVER_MAC set. Exiting."
+                    fi
+                fi
+                DESTINATION_SERVER_MAC=$GATEWAY_MAC
+            fi
+
+            # Encrease logging level up to 8, because standard debian has 7 and did not send many messagesg to netconsole$
+            # # https://www.kernel.org/doc/Documentation/sysctl/kernel.txt
+            echo 8 > /proc/sys/kernel/printk
+
+            MODULE_OPTIONS="netconsole=$SOURCE_PORT@$SOURCE_IP/$SOURCE_INTERFACE,$DESTINATION_PORT@$DESTINATION_SERVER_IP/$DESTINATION_SERVER_MAC"
+
+            if modprobe $NAME "$MODULE_OPTIONS"; then
+                log_success_msg "$NAME loaded"
+            else
+                log_warning_msg "Failed to load $NAME"
+            fi
+        else
+            log_warning_msg "$NAME disabled in /etc/default/netconsole, if you need it, please enable"
+        fi
+        ;;
+  stop )
+        log_daemon_msg "Stopping $NAME: "
+        if ! lsmod | grep -q "^$NAME"; then
+            log_warning_msg "Module $NAME is not loaded"
+        fi
+
+        if modprobe -r $NAME; then
+            log_success_msg "$NAME unloaded"
+        else
+            log_failure_msg "Failed to unload $NAME"
+        fi
+
+        ;;
+  restart)
+        $0 stop
+        sleep 2
+        $0 start
+        ;;
+  status)
+        if ! lsmod | grep -q "^$NAME"; then
+            log_failure_msg "$NAME module is not loaded into kernel"
+        else
+            log_success_msg "$NAME module is loaded into kernel"
+        fi
+        ;; 
+  *)
+        N=/etc/init.d/$NAME
+        echo "Usage: $N {start|stop|restart|status}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0

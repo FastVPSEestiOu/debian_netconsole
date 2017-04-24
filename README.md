@@ -9,20 +9,26 @@ Autoconfigure mac address in routed network (you can use gateway address mac aut
 Script is very simple to configure 
 
 Thoroughly tested on:
-- Debian 6 Squeeze
-- Debian 7 Wheezy
-- Ubuntu 12.04, 14.04
+- Debian 6, 7, 8
+- Ubuntu 12.04, 14.04, 16.04
 
 Fast install:
 ```bash
 wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/install.sh -O /tmp/netconsole_install.sh && bash /tmp/netconsole_install.sh && rm /tmp/netconsole_install.sh
 ```
 
-Install guide for init.d script (RECOMMENDED):
+Install guide for sysdemd.service (Debian 8; Ubuntu 16.04):
 ```bash
-apt-get install -y arping
+wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -O /etc/default/netconsole --no-check-certificate -q
+wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole.service -O /etc/systemd/system/netconsole.service --no-check-certificate -q
+wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole.sh -O /usr/local/bin/netconsole --no-check-certificate -q
+chmod +x /usr/local/bin/netconsole
+```
+
+Install guide for init.d script (Debian 6, 7; Ubuntu 12.04, 14.04):
+```bash
 wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -O/etc/default/netconsole
-wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole -O/etc/init.d/netconsole
+wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_sysv -O/etc/init.d/netconsole
 chmod +x /etc/init.d/netconsole
 ```
 
@@ -44,9 +50,11 @@ ENABLE_NETCONSOLE="yes"
 
 Add to start on boot and start netconsole now:
 ```bash
-# For Debian 6, 7 +
-insserv netconsole
-# For Ubuntu 12.04, 14.04
+# For Debian 8 and Ubuntu 16.04
+systemctl daemon-reload
+systemctl enable netconsole.service
+systemctl start netconsole.service
+# For Debian 6, 7 and Ubuntu 12.04, 14.04
 update-rc.d netconsole defaults
 /etc/init.d/netconsole start
 ```

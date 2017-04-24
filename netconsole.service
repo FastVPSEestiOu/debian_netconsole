@@ -1,0 +1,11 @@
+[Unit]
+Description=netconsole logging faciity
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/local/bin/netconsole start
+ExecStop=/usr/local/bin/netconsole stop
+
+[Install]
+WantedBy=basic.target
