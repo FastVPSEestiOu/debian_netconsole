@@ -65,15 +65,15 @@ _install()
     case $os in
         Debian8|Ubuntu16 )
             echo -ne "Downloading config... "
-            wget https://raw.githubusercontent.com/lilalkor/debian_netconsole/master/netconsole_conf -O /etc/default/netconsole --no-check-certificate -q
+            wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -O /etc/default/netconsole --no-check-certificate -q
             _echo_result $?
         
             echo -ne "Downloading systemd service... "
-            wget https://raw.githubusercontent.com/lilalkor/debian_netconsole/master/netconsole.service -O /etc/systemd/system/netconsole.service --no-check-certificate -q
+            wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole.service -O /etc/systemd/system/netconsole.service --no-check-certificate -q
             _echo_result $?
             
             echo -ne "Downloading stop-start script... "
-            wget https://raw.githubusercontent.com/lilalkor/debian_netconsole/master/netconsole.sh -O /usr/local/bin/netconsole --no-check-certificate -q 
+            wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole.sh -O /usr/local/bin/netconsole --no-check-certificate -q 
             _echo_result $?
             
             echo -ne "Performing chmod... "
@@ -95,11 +95,11 @@ _install()
         ;;
         Debian[6-7]|Ubuntu12|Ubuntu14 )
             echo -ne "Downloading config... "
-            wget https://raw.githubusercontent.com/lilalkor/debian_netconsole/master/netconsole_conf -O /etc/default/netconsole --no-check-certificate -q
+            wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -O /etc/default/netconsole --no-check-certificate -q
             _echo_result $?
     
             echo -ne "Downloading init script... "
-            wget https://raw.githubusercontent.com/lilalkor/debian_netconsole/master/netconsole_sysv -O /etc/init.d/netconsole --no-check-certificate -q
+            wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_sysv -O /etc/init.d/netconsole --no-check-certificate -q
             _echo_result $?
     
             echo -ne "Performing chmod... "
