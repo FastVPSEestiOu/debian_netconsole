@@ -35,6 +35,13 @@ case $ACTION in
 
                 # If we have no arp record for gateway - ping DESTINATION_SERVER_IP to fill arp table and retry
                 if [ -z "$GATEWAY_MAC" ]; then
+                    # Exit if we have no ping
+                    RESULT=$(type ping >/dev/null 2>1; echo $?)
+                    if [ ! $RESULT -eq 0 ]; then
+                        echo -e "You have no ping utility. Please, install it."
+                        exit 1
+                    fi
+
                     ping -n -q -c 3 -i 0.1 $DESTINATION_SERVER_IP > /dev/null
                     GATEWAY_MAC=$(arp "$GATEWAY_IP" | grep "$SOURCE_INTERFACE" | grep -oE  '[a-z0-9:]{17}')
 
