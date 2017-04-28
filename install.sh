@@ -59,6 +59,18 @@ _detect_os()
     echo "${os}"        
 }
 
+# Warn user that we need ping utility
+_check_ping()
+{
+    echo -ne "Testing ping utility... "
+    local result=$(type ping >/dev/null 2>1; echo $?)
+    if [[ $result -eq 0 ]]; then
+        _echo_OK
+    else
+        _echo_FAIL
+    fi
+}
+
 _install()
 {
     local os=$1
@@ -125,4 +137,5 @@ _install()
 
 OS=$(_detect_os)
 echo -e "OS: ${TXT_YLW}${OS}${TXT_RST}"
+_check_ping
 _install $OS
