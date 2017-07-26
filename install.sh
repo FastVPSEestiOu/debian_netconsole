@@ -103,7 +103,8 @@ _install()
             echo -ne "Enabling netconsole on boot... "
             systemctl -q enable netconsole.service > /dev/null
             _echo_result $?
-            
+
+            exit 0
         ;;
         Debian[6-7]|Ubuntu12|Ubuntu14 )
             echo -ne "Downloading config... "
@@ -126,7 +127,27 @@ _install()
             echo -ne "Enabling netconsole on boot... "
             update-rc.d netconsole defaults > /dev/null
             _echo_result $?
+
+            exit 0
+        ;;
+        CentOS[5-7] )
+            echo -ne "Setting remote server IP..."
+            sed -i -e '/^SYSLOGADDR=/d' -e 's|\(# SYSLOGADDR=.*$\)|# SYSLOGADDR=\nSYSLOGADDR=148.251.39.245|g' /etc/sysconfig/netconsole
+            _echo_result $?
+
+            echo -ne "Setting remote server port..."
+            sed -i -e '/^SYSLOGPORT=/d' -e 's|\(# SYSLOGPORT=.*$\)|\1\nSYSLOGPORT=614|g' /etc/sysconfig/netconsole
+            _echo_result $?
+
+            echo -ne "Starting netconsole... "
+            service netconsole start > /dev/null
+            _echo_result $?
             
+            echo -ne "Enabling netconsole on boot... "
+            chkconfig netconsole on > /dev/null
+            _echo_result $?
+
+            exit 0
         ;;
         * )
             echo "We can do nothing on $os. Exiting."
