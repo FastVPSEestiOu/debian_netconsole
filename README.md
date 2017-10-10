@@ -61,7 +61,7 @@ update-rc.d netconsole defaults
 
 Test connection on the client side:
 ```bash
-echo "Test" > /dev/kmsg 
+echo "fastvps_test" > /dev/kmsg 
 ```
 
 On the server side:
