@@ -88,6 +88,10 @@ _install()
             wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole.sh -O /usr/local/bin/netconsole --no-check-certificate -q 
             _echo_result $?
             
+            echo -ne "Installing net-tools .. "
+            apt-get update -qq && apt-get install -qq net-tools > /dev/null
+            _echo_result $?
+            
             echo -ne "Performing chmod... "
             chmod +x /usr/local/bin/netconsole
             _echo_result $?
@@ -119,6 +123,9 @@ _install()
             chmod +x /etc/init.d/netconsole
             _echo_result $?
             
+            echo -ne "Installing net-tools .. "
+            apt-get update -qq && apt-get install -qq net-tools > /dev/null
+            _echo_result $?
             
             echo -ne "Starting netconsole... "
             /etc/init.d/netconsole start > /dev/null
