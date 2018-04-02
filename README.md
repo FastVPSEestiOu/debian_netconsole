@@ -14,7 +14,7 @@ Thoroughly tested on LTS distros:
 
 ## Fast install with install.sh script
 ```bash
-wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/install.sh -O /tmp/netconsole_install.sh && bash /tmp/netconsole_install.sh && rm /tmp/netconsole_install.sh
+wget --no-check-certificate https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/install.sh -O /tmp/netconsole_install.sh && bash /tmp/netconsole_install.sh && rm --force /tmp/netconsole_install.sh
 ```
 
 ## Manual install
