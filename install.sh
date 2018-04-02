@@ -63,7 +63,7 @@ _detect_os()
 _check_ping()
 {
     echo -ne "Testing ping utility... "
-    local result=$(type ping >/dev/null 2>1; echo $?)
+    local result=$(type ping >/dev/null 2>&1; echo $?)
     if [[ $result -eq 0 ]]; then
         _echo_OK
     else
