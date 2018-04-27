@@ -110,7 +110,7 @@ _install()
 
             exit 0
         ;;
-        Debian[6-7]|Ubuntu12|Ubuntu14 )
+        Debian7|Ubuntu12|Ubuntu14 )
             echo -ne "Downloading config... "
             wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -O /etc/default/netconsole --no-check-certificate -q
             _echo_result $?
@@ -125,6 +125,33 @@ _install()
             
             echo -ne "Installing net-tools .. "
             apt-get update -qq && apt-get install -qq net-tools > /dev/null
+            _echo_result $?
+            
+            echo -ne "Starting netconsole... "
+            /etc/init.d/netconsole start > /dev/null
+            _echo_result $?
+            
+            echo -ne "Enabling netconsole on boot... "
+            update-rc.d netconsole defaults > /dev/null
+            _echo_result $?
+
+            exit 0
+        ;;
+        Debian6 )
+            echo -ne "Downloading config... "
+            wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -O /etc/default/netconsole --no-check-certificate -q
+            _echo_result $?
+    
+            echo -ne "Downloading init script... "
+            wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_sysv -O /etc/init.d/netconsole --no-check-certificate -q
+            _echo_result $?
+    
+            echo -ne "Performing chmod... "
+            chmod +x /etc/init.d/netconsole
+            _echo_result $?
+            
+            echo -ne "Installing net-tools .. "
+            apt-get update -o Acquire::Check-Valid-Until=false -qq && apt-get install --allow-unauthenticated -qq net-tools > /dev/null
             _echo_result $?
             
             echo -ne "Starting netconsole... "
