@@ -2,6 +2,7 @@
 [Unit]
 Description=netconsole logging faciity
 After=networking.service
+Requires=networking.service
 
 [Service]
 Type=oneshot
