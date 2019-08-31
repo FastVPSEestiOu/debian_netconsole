@@ -1,8 +1,7 @@
 # /etc/systemd/system/netconsole.service
 [Unit]
 Description=netconsole logging faciity
-After=networking.service
-Requires=networking.service
+After=network.target
 
 [Service]
 Type=oneshot
