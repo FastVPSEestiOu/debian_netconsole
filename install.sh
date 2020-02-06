@@ -164,7 +164,11 @@ _install()
 
             exit 0
         ;;
-        CentOS[5-7] )
+        CentOS[5-8] )
+            echo -ne "Installing netconsole-service .. "
+            yum install -q -y netconsole-service > /dev/null
+            _echo_result $?
+
             echo -ne "Setting remote server IP..."
             sed -i -e '/^SYSLOGADDR=/d' -e 's|\(# SYSLOGADDR=.*$\)|# SYSLOGADDR=\nSYSLOGADDR=148.251.39.245|g' /etc/sysconfig/netconsole
             _echo_result $?
