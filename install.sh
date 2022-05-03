@@ -75,7 +75,7 @@ _install()
 {
     local os=$1
     case $os in
-        Debian[8-9]|Debian1[0-1]|Ubuntu1[6-8]|Ubuntu20)
+        Debian[8-9]|Debian1[0-1]|Ubuntu1[6-8]|Ubuntu2[0-2])
             echo -ne "Downloading config... "
             wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -O /etc/default/netconsole --no-check-certificate -q
             _echo_result $?
