@@ -63,8 +63,7 @@ _detect_os()
 _check_ping()
 {
     echo -ne "Testing ping utility... "
-    local result=$(type ping >/dev/null 2>&1; echo $?)
-    if [[ $result -eq 0 ]]; then
+    if type ping &>/dev/null; then
         _echo_OK
     else
         _echo_FAIL
@@ -110,7 +109,7 @@ _install()
 
             exit 0
         ;;
-        Debian7|Ubuntu12|Ubuntu14 )
+        Debian7|Ubuntu12|Ubuntu14)
             echo -ne "Downloading config... "
             wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -O /etc/default/netconsole --no-check-certificate -q
             _echo_result $?
@@ -137,7 +136,7 @@ _install()
 
             exit 0
         ;;
-        Debian6 )
+        Debian6)
             echo -ne "Downloading config... "
             wget https://raw.githubusercontent.com/FastVPSEestiOu/debian_netconsole/master/netconsole_conf -O /etc/default/netconsole --no-check-certificate -q
             _echo_result $?
@@ -164,8 +163,8 @@ _install()
 
             exit 0
         ;;
-        CentOS[5-8] )
-            if yum list available netconsole-service > /dev/null; then
+        AlmaLinux8|CentOS[5-8]|Rocky8)
+            if yum list available netconsole-service &> /dev/null; then
                 echo -ne "Installing netconsole-service... "
                 yum install -q -y netconsole-service > /dev/null
                 _echo_result $?
@@ -189,7 +188,7 @@ _install()
 
             exit 0
         ;;
-        * )
+        *)
             echo "We can do nothing on $os. Exiting."
             exit 1
         ;;
@@ -199,4 +198,4 @@ _install()
 OS=$(_detect_os)
 echo -e "OS: ${TXT_YLW}${OS}${TXT_RST}"
 _check_ping
-_install $OS
+_install "$OS"
