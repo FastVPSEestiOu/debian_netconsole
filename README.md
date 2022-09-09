@@ -8,9 +8,11 @@ Autoconfigure mac address in routed network (you can use gateway address mac aut
 Script is very simple to configure 
 
 Thoroughly tested on LTS distros:
-- Debian 6, 7, 8, 9
-- CentOS 5, 6, 7
-- Ubuntu 12.04, 14.04, 16.04
+- AlmaLinux: 8
+- CentOS: 5, 6, 7, 8
+- Debian: 6, 7, 8, 9, 10, 11
+- Rocky: 8
+- Ubuntu: 12.04, 14.04, 16.04, 18.04, 20.04, 22.04
 
 ## Fast install with install.sh script
 ```bash
@@ -38,7 +40,7 @@ update-rc.d netconsole defaults
 /etc/init.d/netconsole start
 ```
 
-Install guide for CentOS 6, 7:
+Install guide for (AlmaLinux 8; CentOS 6, 7, 8; Rocky 8):
 ```bash
 sed -i -e '/^SYSLOGADDR=/d' -e 's|\(# SYSLOGADDR=.*$\)|# SYSLOGADDR=\nSYSLOGADDR=148.251.39.245|g' /etc/sysconfig/netconsole
 sed -i -e '/^SYSLOGPORT=/d' -e 's|\(# SYSLOGPORT=.*$\)|\1\nSYSLOGPORT=614|g' /etc/sysconfig/netconsole
