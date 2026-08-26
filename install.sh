@@ -163,7 +163,7 @@ _install()
 
             exit 0
         ;;
-        AlmaLinux[8-9]|CentOS[5-8]|Rocky[8-9])
+        AlmaLinux[8-9]|AlmaLinux10|CentOS[5-8]|Rocky[8-9]|Rocky10)
             if yum list available netconsole-service &> /dev/null; then
                 echo -ne "Installing netconsole-service... "
                 yum install -q -y netconsole-service > /dev/null
